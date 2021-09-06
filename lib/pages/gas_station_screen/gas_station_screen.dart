@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geolocation_gas_station/pages/gas_station_screen/gas_station_controller.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
-class GasStationScreen extends StatefulWidget {
-  GasStationScreen({Key? key}) : super(key: key);
+final appKey = GlobalKey();
 
-  @override
-  _GasStationScreenState createState() => _GasStationScreenState();
-}
-
-class _GasStationScreenState extends State<GasStationScreen> {
+class GasStationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: appKey,
       appBar: AppBar(
         title: Text('My Place'),
         centerTitle: true,
@@ -23,12 +20,16 @@ class _GasStationScreenState extends State<GasStationScreen> {
           builder: (context) {
             final local = context.watch<GasStationController>();
 
-            String message = local.error == ''
-                ? 'Latituded: ${local.lat} | Longitude ${local.long}'
-                : local.error;
-
-            return Center(
-              child: Text(message),
+            return GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(local.lat, local.long),
+                zoom: 18,
+              ),
+              zoomControlsEnabled: true,
+              mapType: MapType.normal,
+              myLocationEnabled: true,
+              onMapCreated: local.onMapCreated,
+              markers: local.markers,
             );
           },
         ),

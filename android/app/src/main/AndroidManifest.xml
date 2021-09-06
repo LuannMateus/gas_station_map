@@ -2,7 +2,12 @@
     package="com.example.geolocation_gas_station">
    <application
         android:label="geolocation_gas_station"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        >
+        <meta-data 
+          android:name="com.google.android.geo.API_KEY"
+          android:value="@string/ANDROID_MAPS_API_KEY"
+        />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
